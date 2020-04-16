@@ -47,27 +47,72 @@ namespace Project
         {
             adjacencyListLabel.Visibility = Visibility.Visible;
             verticesBox.Visibility = Visibility.Visible;
-            GenerateVerticesLabels();
+            neighborsBox.Visibility = Visibility.Visible;
+            exampleFormatBox.Visibility = Visibility.Visible;
+            GenerateAdjacencyList();
         }
 
-        private void GenerateVerticesLabels()
+        private void GenerateAdjacencyList()
         {
             for (int i = 0; i < graph.vertexes.Count; i++)
             {
                 GenerateVortexLabel(i);
+                GenerateNeighborsTextBoxes(i);
             }
+            GenerateProceedButton(graph.vertexes.Count);
         }
+
+        private void GenerateProceedButton(int i)
+        {
+            var button = new Button 
+            {
+                Name = "proceedButton",
+                Content = "Zatwierdź",
+                FontSize = 18,
+                Height = 40,
+                Width = 100,
+                Margin = new Thickness(230+400, 172 + 30 * i, 0, 0),
+                Background = new SolidColorBrush(Colors.White),
+                HorizontalAlignment = HorizontalAlignment.Left,
+                VerticalAlignment = VerticalAlignment.Top
+            };
+            button.Click += ProceedButton_Click;
+            grid.Children.Add(button);
+        }
+
+        private void ProceedButton_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
         private void GenerateVortexLabel(int i)
         {
-            var temp = new Label();
-            temp.Content = i + 1;
-            temp.FontSize = 16;
-            temp.Height = 30;
-            temp.Width = 30;
-            temp.Margin = new Thickness(80, 140 + 30 * i, 0, 0);
-            temp.HorizontalAlignment = HorizontalAlignment.Left;
-            temp.Background = new SolidColorBrush(Colors.White);
-            temp.VerticalAlignment = VerticalAlignment.Top;
+            var temp = new Label
+            {
+                Content = i + 1,
+                FontSize = 18,
+                Height = 30,
+                Width = 30,
+                Margin = new Thickness(160, 142 + 30 * i + 10, 0, 0),
+                Background = new SolidColorBrush(Colors.White),
+                HorizontalAlignment = HorizontalAlignment.Left,
+                VerticalAlignment = VerticalAlignment.Top
+            };
+            grid.Children.Add(temp);
+        }
+        private void GenerateNeighborsTextBoxes(int i)
+        {
+            var temp = new TextBox
+            {
+                Name = "neighborsListVortex" + i,
+                FontSize = 18,
+                Height = 30,
+                Width = 500,
+                Margin = new Thickness(230, 142 + 30 * i + 10, 0, 0),
+                Background = new SolidColorBrush(Colors.White),
+                HorizontalAlignment = HorizontalAlignment.Left,
+                VerticalAlignment = VerticalAlignment.Top
+            };
             grid.Children.Add(temp);
         }
     }
