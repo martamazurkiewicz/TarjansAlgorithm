@@ -8,7 +8,7 @@ namespace Project
     {
         //temporarily graph will be represented by adjacency list
         List<List<int>> adjacencyList;
-        List<int> vertexes;
+        public List<int> vertexes { get; private set; }
 
         public Graph(int numberOfVertexes)
         {
