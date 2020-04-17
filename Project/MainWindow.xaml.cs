@@ -30,7 +30,6 @@ namespace Project
             InitializeNumberOfVerticesBox();
             neighborsTextBoxes = new List<TextBox>();
         }
-
         private void InitializeNumberOfVerticesBox()
         {
             List<int> list = new List<int>();
@@ -40,51 +39,85 @@ namespace Project
             }
             numberOfVerticesBox.ItemsSource = list;
         }
+
+        //function which determine what happen when the user chooses the number of vertices 
         private void NumberOfVerticesBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             //index of items in combobox starts from 0, actual items starts from 1
             graph = new Graph(((ComboBox)sender).SelectedIndex + 1);
-            adjacencyListGrid.Children.Clear();
-            DisplayAdjacencyList();
+            GenerateAdjacencyList();
         }
-        private void DisplayAdjacencyList()
+        private void GenerateAdjacencyList()
         {
+            adjacencyListGrid.Children.Clear();
             adjacencyListLabel.Visibility = Visibility.Visible;
             verticesBox.Visibility = Visibility.Visible;
             neighborsBox.Visibility = Visibility.Visible;
             exampleFormatBox.Visibility = Visibility.Visible;
-            GenerateAdjacencyList();
+            DisplayAdjacencyList();
         }
 
-        private void GenerateAdjacencyList()
+        private void DisplayAdjacencyList()
         {
-            for (int i = 0; i < graph.adjacencyList.Count; i++)
+            for (int i = 0; i < graph.AdjacencyList.Count; i++)
             {
-                GenerateVortexLabel(i);
+                GenerateVerticesLabels(i);
                 GenerateNeighborsTextBoxes(i);
             }
-            GenerateProceedButton(graph.adjacencyList.Count);
+            GenerateProceedButton(graph.AdjacencyList.Count);
         }
 
-        private void GenerateProceedButton(int i)
+        private void GenerateVerticesLabels(int labelNumber)
         {
-            var button = new Button 
+            var temp = new Label
             {
-                Name = "proceedButton",
-                Content = "Zatwierdź",
+                Content = labelNumber + 1,
                 FontSize = 18,
-                Height = 40,
-                Width = 100,
-                Margin = new Thickness(600, 3 + 35 * i, 0, 0),
+                Height = 30,
+                Width = 30,
+                Margin = new Thickness(160, 3 + 35 * labelNumber, 0, 0),
                 Background = new SolidColorBrush(Colors.White),
                 HorizontalAlignment = HorizontalAlignment.Left,
                 VerticalAlignment = VerticalAlignment.Top
             };
-            button.Click += ProceedButton_Click;
+            adjacencyListGrid.Children.Add(temp);
+        }
+
+        private void GenerateNeighborsTextBoxes(int boxNumber)
+        {
+            var temp = new TextBox
+            {
+                FontSize = 18,
+                Height = 30,
+                Width = 500,
+                Margin = new Thickness(200, 3 + 35 * boxNumber, 0, 0),
+                Background = new SolidColorBrush(Colors.White),
+                HorizontalAlignment = HorizontalAlignment.Left,
+                VerticalAlignment = VerticalAlignment.Top,
+                BorderBrush = new SolidColorBrush(Colors.LightGray)
+            };
+            neighborsTextBoxes.Add(temp);
+            adjacencyListGrid.Children.Add(temp);
+        }
+
+        private void GenerateProceedButton(int topMargin)
+        {
+            var button = new Button 
+            {
+                Content = "Zatwierdź",
+                FontSize = 18,
+                Height = 40,
+                Width = 100,
+                Margin = new Thickness(600, 3 + 35 * topMargin, 0, 0),
+                Background = new SolidColorBrush(Colors.White),
+                HorizontalAlignment = HorizontalAlignment.Left,
+                VerticalAlignment = VerticalAlignment.Top
+            };
+            button.Click += Button_Click;
             adjacencyListGrid.Children.Add(button);
         }
 
-        private void ProceedButton_Click(object sender, EventArgs e)
+        private void Button_Click(object sender, EventArgs e)
         {
             bool textBoxesContentCorrect = true;
             for (int i = 0; i < neighborsTextBoxes.Count; i++)
@@ -95,68 +128,14 @@ namespace Project
             if (!textBoxesContentCorrect)
                 return;
             else
-            {
-                ClearNeighborsLists();
+            { 
+                graph.AddNeighbors(ConvertNeighborsTextBoxesContentToStringArray());
             }
-        }
-
-        private void ClearNeighborsLists()
-        {
-            List<string[]> lists = new List<string[]>();
-            for (int i = 0; i < neighborsTextBoxes.Count; i++)
-            {
-                neighborsTextBoxes[i].Text = Regex.Replace(neighborsTextBoxes[i].Text, @"\s+", String.Empty);
-                lists[i] = neighborsTextBoxes[i].Text.Split(',');
-            }
-            ConvertNeighborsListsToIntegers(lists);
-        }
-
-        private void ConvertNeighborsListsToIntegers(List<string[]> neighborsLists)
-        {
-            List<int[]> lists = new List<int[]>();
-            for (int i = 0; i < neighborsLists.Count; i++)
-            {
-                lists[i] = Array.ConvertAll(neighborsLists[i], int.Parse);
-            }
-            graph.AddNeighbors(lists);
-        }
-
-        private void GenerateVortexLabel(int i)
-        {
-            var temp = new Label
-            {
-                Content = i + 1,
-                FontSize = 18,
-                Height = 30,
-                Width = 30,
-                Margin = new Thickness(160, 3 + 35 * i, 0, 0),
-                Background = new SolidColorBrush(Colors.White),
-                HorizontalAlignment = HorizontalAlignment.Left,
-                VerticalAlignment = VerticalAlignment.Top
-            };
-            adjacencyListGrid.Children.Add(temp);
-        }
-        private void GenerateNeighborsTextBoxes(int i)
-        {
-            var temp = new TextBox
-            {
-                Name = "neighborsListVortex" + i,
-                FontSize = 18,
-                Height = 30,
-                Width = 500,
-                Margin = new Thickness(200, 3 + 35 * i, 0, 0),
-                Background = new SolidColorBrush(Colors.White),
-                HorizontalAlignment = HorizontalAlignment.Left,
-                VerticalAlignment = VerticalAlignment.Top,
-                BorderBrush = new SolidColorBrush(Colors.LightGray)
-        };
-            neighborsTextBoxes.Add(temp);
-            adjacencyListGrid.Children.Add(temp);
         }
 
         private bool RegexTextBox(TextBox tmp)
         {
-            if(Regex.IsMatch(tmp.Text, @"^([1-9]{1}(\d)*(,|,\s)?)*$"))
+            if (Regex.IsMatch(tmp.Text, @"^([1-9]{1}(\d)*(,|,\s)?)*$"))
             {
                 tmp.BorderBrush = new SolidColorBrush(Colors.LightGray);
                 return true;
@@ -166,6 +145,16 @@ namespace Project
                 tmp.BorderBrush = new SolidColorBrush(Colors.Red);
                 return false;
             }
+        }
+        private List<string[]> ConvertNeighborsTextBoxesContentToStringArray()
+        {
+            List<string[]> lists = new List<string[]>();
+            for (int i = 0; i < neighborsTextBoxes.Count; i++)
+            {
+                neighborsTextBoxes[i].Text = Regex.Replace(neighborsTextBoxes[i].Text, @"\s+", String.Empty);
+                lists[i] = neighborsTextBoxes[i].Text.Split(',');
+            }
+            return lists;
         }
     }
 }
