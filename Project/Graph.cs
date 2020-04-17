@@ -6,23 +6,21 @@ namespace Project
 {
     public class Graph
     {
-        //temporarily graph will be represented by adjacency list
-        List<List<int>> adjacencyList;
-        public List<int> vertexes { get; private set; }
+        public List<List<int>> adjacencyList { get; private set; }
 
-        public Graph(int numberOfVertexes)
+        public Graph(int numberOfVertices)
         {
-            vertexes = new List<int>();
-            for (int i = 0; i < numberOfVertexes; i++)
+            adjacencyList = new List<List<int>>();
+            for (int i = 0; i < numberOfVertices; i++)
             {
-                vertexes.Add(i);
+                adjacencyList.Add(new List<int>());
             }
         }
 
-        internal void AddNeighbors(List<int[]> lists)
+        public void AddNeighbors(List<int[]> lists)
         {
             adjacencyList = new List<List<int>>();
-            for (int i = 0; i < vertexes.Count; i++)
+            for (int i = 0; i < adjacencyList.Count; i++)
             {
                 adjacencyList[i] = new List<int>();
                 foreach (var item in lists[i])

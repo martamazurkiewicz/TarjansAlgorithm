@@ -58,12 +58,12 @@ namespace Project
 
         private void GenerateAdjacencyList()
         {
-            for (int i = 0; i < graph.vertexes.Count; i++)
+            for (int i = 0; i < graph.adjacencyList.Count; i++)
             {
                 GenerateVortexLabel(i);
                 GenerateNeighborsTextBoxes(i);
             }
-            GenerateProceedButton(graph.vertexes.Count);
+            GenerateProceedButton(graph.adjacencyList.Count);
         }
 
         private void GenerateProceedButton(int i)
