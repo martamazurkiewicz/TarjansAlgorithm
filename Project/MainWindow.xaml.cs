@@ -41,6 +41,7 @@ namespace Project
         {
             //index of items in combobox starts from 0, actual items starts from 1
             graph = new Graph(((ComboBox)sender).SelectedIndex + 1);
+            adjacencyListGrid.Children.Clear();
             DisplayAdjacencyList();
         }
         private void DisplayAdjacencyList()
@@ -71,13 +72,13 @@ namespace Project
                 FontSize = 18,
                 Height = 40,
                 Width = 100,
-                Margin = new Thickness(230+400, 172 + 30 * i, 0, 0),
+                Margin = new Thickness(600, 3 + 35 * i, 0, 0),
                 Background = new SolidColorBrush(Colors.White),
                 HorizontalAlignment = HorizontalAlignment.Left,
                 VerticalAlignment = VerticalAlignment.Top
             };
             button.Click += ProceedButton_Click;
-            grid.Children.Add(button);
+            adjacencyListGrid.Children.Add(button);
         }
 
         private void ProceedButton_Click(object sender, EventArgs e)
@@ -93,12 +94,12 @@ namespace Project
                 FontSize = 18,
                 Height = 30,
                 Width = 30,
-                Margin = new Thickness(160, 142 + 30 * i + 10, 0, 0),
+                Margin = new Thickness(160, 3 + 35 * i, 0, 0),
                 Background = new SolidColorBrush(Colors.White),
                 HorizontalAlignment = HorizontalAlignment.Left,
                 VerticalAlignment = VerticalAlignment.Top
             };
-            grid.Children.Add(temp);
+            adjacencyListGrid.Children.Add(temp);
         }
         private void GenerateNeighborsTextBoxes(int i)
         {
@@ -108,12 +109,12 @@ namespace Project
                 FontSize = 18,
                 Height = 30,
                 Width = 500,
-                Margin = new Thickness(230, 142 + 30 * i + 10, 0, 0),
+                Margin = new Thickness(200, 3 + 35 * i, 0, 0),
                 Background = new SolidColorBrush(Colors.White),
                 HorizontalAlignment = HorizontalAlignment.Left,
                 VerticalAlignment = VerticalAlignment.Top
             };
-            grid.Children.Add(temp);
+            adjacencyListGrid.Children.Add(temp);
         }
     }
 }
