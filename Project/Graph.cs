@@ -21,7 +21,15 @@ namespace Project
 
         internal void AddNeighbors(List<int[]> lists)
         {
-            throw new NotImplementedException();
+            adjacencyList = new List<List<int>>();
+            for (int i = 0; i < vertexes.Count; i++)
+            {
+                adjacencyList[i] = new List<int>();
+                foreach (var item in lists[i])
+                {
+                    adjacencyList[i].Add(item);
+                } 
+            }
         }
     }
 }
