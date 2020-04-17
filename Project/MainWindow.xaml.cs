@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -21,11 +22,13 @@ namespace Project
     public partial class MainWindow : Window
     {
         Graph graph;
+        List<TextBox> neighborsTextBoxes;
         public MainWindow()
         {
             this.WindowState = WindowState.Maximized;
             InitializeComponent();
             InitializeNumberOfVerticesBox();
+            neighborsTextBoxes = new List<TextBox>();
         }
 
         private void InitializeNumberOfVerticesBox()
@@ -83,7 +86,39 @@ namespace Project
 
         private void ProceedButton_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            bool textBoxesContentCorrect = true;
+            for (int i = 0; i < neighborsTextBoxes.Count; i++)
+            {
+                if (!RegexTextBox(neighborsTextBoxes[i]))
+                    textBoxesContentCorrect = false;
+            }
+            if (!textBoxesContentCorrect)
+                return;
+            else
+            {
+                ClearNeighborsLists();
+            }
+        }
+
+        private void ClearNeighborsLists()
+        {
+            List<string[]> lists = new List<string[]>();
+            for (int i = 0; i < neighborsTextBoxes.Count; i++)
+            {
+                neighborsTextBoxes[i].Text = Regex.Replace(neighborsTextBoxes[i].Text, @"\s+", String.Empty);
+                lists[i] = neighborsTextBoxes[i].Text.Split(',');
+            }
+            ConvertNeighborsListsToIntegers(lists);
+        }
+
+        private void ConvertNeighborsListsToIntegers(List<string[]> neighborsLists)
+        {
+            List<int[]> lists = new List<int[]>();
+            for (int i = 0; i < neighborsLists.Count; i++)
+            {
+                lists[i] = Array.ConvertAll(neighborsLists[i], int.Parse);
+            }
+            graph.AddNeighbors(lists);
         }
 
         private void GenerateVortexLabel(int i)
@@ -112,9 +147,25 @@ namespace Project
                 Margin = new Thickness(200, 3 + 35 * i, 0, 0),
                 Background = new SolidColorBrush(Colors.White),
                 HorizontalAlignment = HorizontalAlignment.Left,
-                VerticalAlignment = VerticalAlignment.Top
-            };
+                VerticalAlignment = VerticalAlignment.Top,
+                BorderBrush = new SolidColorBrush(Colors.LightGray)
+        };
+            neighborsTextBoxes.Add(temp);
             adjacencyListGrid.Children.Add(temp);
+        }
+
+        private bool RegexTextBox(TextBox tmp)
+        {
+            if(Regex.IsMatch(tmp.Text, @"^([1-9]{1}(\d)*(,|,\s)?)*$"))
+            {
+                tmp.BorderBrush = new SolidColorBrush(Colors.LightGray);
+                return true;
+            }
+            else
+            {
+                tmp.BorderBrush = new SolidColorBrush(Colors.Red);
+                return false;
+            }
         }
     }
 }

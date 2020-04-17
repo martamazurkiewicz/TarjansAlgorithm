@@ -18,5 +18,10 @@ namespace Project
                 vertexes.Add(i);
             }
         }
+
+        internal void AddNeighbors(List<int[]> lists)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
