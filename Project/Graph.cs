@@ -6,28 +6,37 @@ namespace Project
 {
     public class Graph
     {
-        public List<List<int>> adjacencyList { get; private set; }
+        public List<List<int>> AdjacencyList { get; private set; }
 
         public Graph(int numberOfVertices)
         {
-            adjacencyList = new List<List<int>>();
+            AdjacencyList = new List<List<int>>();
             for (int i = 0; i < numberOfVertices; i++)
             {
-                adjacencyList.Add(new List<int>());
+                AdjacencyList.Add(new List<int>());
             }
         }
 
-        public void AddNeighbors(List<int[]> lists)
+        public void AddNeighbors(List<string[]> neighboursLists)
         {
-            adjacencyList = new List<List<int>>();
-            for (int i = 0; i < adjacencyList.Count; i++)
+            List<int[]> lists = ConvertNeighborsListsToIntegers(neighboursLists);
+            for (int i = 0; i < AdjacencyList.Count; i++)
             {
-                adjacencyList[i] = new List<int>();
+                AdjacencyList[i] = new List<int>();
                 foreach (var item in lists[i])
                 {
-                    adjacencyList[i].Add(item);
+                    AdjacencyList[i].Add(item);
                 } 
             }
+        }
+        private List<int[]> ConvertNeighborsListsToIntegers(List<string[]> neighborsLists)
+        {
+            List<int[]> lists = new List<int[]>();
+            foreach (var item in neighborsLists)
+            {
+                lists.Add(Array.ConvertAll(item, int.Parse));
+            }
+            return lists;
         }
     }
 }
