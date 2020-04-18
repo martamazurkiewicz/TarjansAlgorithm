@@ -117,25 +117,21 @@ namespace Project
             adjacencyListGrid.Children.Add(button);
         }
 
-        private void Button_Click(object sender, EventArgs e)
+        public void Button_Click(object sender, EventArgs e)
         {
             bool textBoxesContentCorrect = true;
             for (int i = 0; i < neighborsTextBoxes.Count; i++)
-            {
                 if (!RegexTextBox(neighborsTextBoxes[i]))
                     textBoxesContentCorrect = false;
-            }
             if (!textBoxesContentCorrect)
                 return;
             else
-            { 
                 graph.AddNeighbors(ConvertNeighborsTextBoxesContentToStringArray());
-            }
         }
 
         private bool RegexTextBox(TextBox tmp)
         {
-            if (Regex.IsMatch(tmp.Text, @"^([1-9]{1}(\d)*(,|,\s)?)*$"))
+            if (Regex.IsMatch(tmp.Text, @"^([1-9]{1}(\d)*(\s,|,|,\s)?)*$"))
             {
                 tmp.BorderBrush = new SolidColorBrush(Colors.LightGray);
                 return true;
@@ -149,10 +145,10 @@ namespace Project
         private List<string[]> ConvertNeighborsTextBoxesContentToStringArray()
         {
             List<string[]> lists = new List<string[]>();
-            for (int i = 0; i < neighborsTextBoxes.Count; i++)
+            foreach (var item in neighborsTextBoxes)
             {
-                neighborsTextBoxes[i].Text = Regex.Replace(neighborsTextBoxes[i].Text, @"\s+", String.Empty);
-                lists[i] = neighborsTextBoxes[i].Text.Split(',');
+                item.Text = Regex.Replace(item.Text, @"\s+", String.Empty);
+                lists.Add(item.Text.Split(','));
             }
             return lists;
         }

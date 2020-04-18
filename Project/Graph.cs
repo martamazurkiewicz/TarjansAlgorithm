@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using System.Windows;
 
 namespace Project
 {
@@ -19,23 +21,30 @@ namespace Project
 
         public void AddNeighbors(List<string[]> neighboursLists)
         {
-            List<int[]> lists = ConvertNeighborsListsToIntegers(neighboursLists);
+            List<List<int>> lists = ConvertNeighborsListsToInteger(neighboursLists);
             for (int i = 0; i < AdjacencyList.Count; i++)
             {
-                AdjacencyList[i] = new List<int>();
-                foreach (var item in lists[i])
+                if (lists[i].Count != 0)
                 {
-                    AdjacencyList[i].Add(item);
-                } 
+                    AdjacencyList[i] = new List<int>();
+                    foreach (var item in lists[i])
+                    {
+                        AdjacencyList[i].Add(item);
+                    }
+                }
             }
         }
-        private List<int[]> ConvertNeighborsListsToIntegers(List<string[]> neighborsLists)
+
+        private List<List<int>> ConvertNeighborsListsToInteger(List<string[]> neighborsLists)
         {
-            List<int[]> lists = new List<int[]>();
-            foreach (var item in neighborsLists)
+            List<List<int>> lists = new List<List<int>>();
+            for (int i = 0; i < AdjacencyList.Count; i++)
             {
-                lists.Add(Array.ConvertAll(item, int.Parse));
-            }
+                if (neighborsLists[i][0] == "")
+                    lists.Add(new List<int>());
+                else
+                    lists.Add(neighborsLists[i].Select(Int32.Parse).ToList());
+            } 
             return lists;
         }
     }
