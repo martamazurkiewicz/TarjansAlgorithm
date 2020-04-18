@@ -6,10 +6,16 @@
         xmlns:local="clr-namespace:Project"
         mc:Ignorable="d"
         Title="Algorytm poszukiwania wszystkich mostów w grafie" Height="450" Width="800">
-    <Grid Background="Cornsilk">
-        <Label Content="Algorytm poszukiwania wszystkich mostów w grafie - Algorytm Tarjana" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="7.47,0.664" Width="540" Height="37" FontFamily="Calibri" FontSize="18" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-        <Label Content="Wybierz liczbę wierzchołków" HorizontalAlignment="Left" Margin="200,55,0,0" VerticalAlignment="Top" Width="200" Height="34" FontFamily="Calibri" FontSize="16"/>
-        <ComboBox x:Name="numberOfVerticesBox" HorizontalAlignment="Left" Margin="405,55,0,0" VerticalAlignment="Top" Width="136" Height="28" FontFamily="Calibri" FontSize="16" SelectionChanged="NumberOfVerticesBox_SelectionChanged"/>
-        <Label x:Name="adjacencyListLabel" Content="Uzupełnij listę sąsiedztwa:" HorizontalAlignment="Left" Margin="130,85,0,0" VerticalAlignment="Top" Width="180" Height="34" FontFamily="Calibri" FontSize="16" Visibility="Hidden"/>
-    </Grid>
+    <ScrollViewer>
+        <Grid x:Name="grid" Background="Cornsilk">
+            <Label Content="Algorytm poszukiwania wszystkich mostów w grafie - Algorytm Tarjana" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="7.47,0.664" Width="540" Height="37" FontFamily="Calibri" FontSize="18" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+            <Label Content="Wybierz liczbę wierzchołków" HorizontalAlignment="Left" Margin="200,55,0,0" VerticalAlignment="Top" Width="200" Height="34" FontFamily="Calibri" FontSize="16"/>
+            <ComboBox x:Name="numberOfVerticesBox" HorizontalAlignment="Left" Margin="405,55,0,0" VerticalAlignment="Top" Width="136" Height="28" FontFamily="Calibri" FontSize="16" SelectionChanged="NumberOfVerticesBox_SelectionChanged"/>
+            <Label x:Name="adjacencyListLabel" Content="Uzupełnij listę sąsiedztwa:" HorizontalAlignment="Left" Margin="130,85,0,0" VerticalAlignment="Top" Width="180" Height="35" FontFamily="Calibri" FontSize="16" Visibility="Visible"/>
+            <Label x:Name="verticesBox" Content="Wierzchołki grafu" HorizontalAlignment="Left" Margin="80,115,0,0" VerticalAlignment="Top" Width="122" Height="35" FontFamily="Calibri" FontSize="16" Visibility="Visible"/>
+            <Label x:Name="neighborsBox" Content="Wpisz sąsiadów wierzchołka w formacie:" HorizontalAlignment="Left" Margin="240,115,0,0" VerticalAlignment="Top" Width="275" Height="35" FontFamily="Calibri" FontSize="16" Visibility="Visible"/>
+            <Label x:Name="exampleFormatBox" Content="1,2,3,4,18,22" HorizontalAlignment="Left" Margin="510,115,0,0" VerticalAlignment="Top" Width="99" Height="35" FontFamily="Calibri" FontSize="16" Visibility="Visible" Background="#FBFFFFFF" BorderBrush="Black" BorderThickness="2,2,2,2" RenderTransformOrigin="0.452,0.555"/>
+            <Grid x:Name="adjacencyListGrid" Margin="5,155,0,7"/>
+        </Grid>
+    </ScrollViewer>
 </Window>
