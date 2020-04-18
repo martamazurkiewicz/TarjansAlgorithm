@@ -131,7 +131,7 @@ namespace Project
 
         private bool RegexTextBox(TextBox tmp)
         {
-            if (Regex.IsMatch(tmp.Text, @"^([1-9]{1}(\d)*(\s,|,|,\s)?)*$"))
+            if (Regex.IsMatch(tmp.Text, @"^([1-9]\d*(\s,[1-9]\d*|,[1-9]\d*|,\s[1-9]\d*|)*|)$"))
             {
                 tmp.BorderBrush = new SolidColorBrush(Colors.LightGray);
                 return true;
