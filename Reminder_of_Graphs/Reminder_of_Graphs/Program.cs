@@ -52,9 +52,13 @@ namespace Reminder_of_Graphs
             {
                 Spanning_Tree_2[i] = new List<int>();
             }
-            DFS_Spanning_Tree_2(Graph_1, 0, visited, Spanning_Tree_2);
+            DFS_Spanning_Tree_R(Graph_1, 0, visited, Spanning_Tree_2);
             Clearing_Bool_Table(visited);
-
+            Console.WriteLine();
+            Console.WriteLine();
+            int[] DFS_Numbers = new int[Graph_1.Count];
+            int[] DFS_Numbers2 = new int[Graph_1.Count];
+            DFS_Order_and_Counting(Graph_1,0,DFS_Numbers);
             Console.ReadKey();
         }
         static void DFS_Order(List<List<int>>Adjacency_List, int First_Vertex) //vertices starting from 0 
@@ -115,9 +119,9 @@ namespace Reminder_of_Graphs
                     {
 
                         s1.Push(Adjacency_List[current_Vertex][i]);
-                        Tree[current_Vertex].Add(Adjacency_List[current_Vertex][i]); //adding edge connecting parent and child
+                        Tree[current_Vertex].Add(Adjacency_List[current_Vertex][i]); //adding edge connecting parent and child 
                         Tree[Adjacency_List[current_Vertex][i]].Add(current_Vertex); //adding edge connecting parent and child
-                    }
+                    }                                                                //both lines are necessary if we are considering undirected graph
                 }
             }
             Console.WriteLine();
@@ -126,7 +130,7 @@ namespace Reminder_of_Graphs
 
         }
 
-        static void DFS_Spanning_Tree_2(List<List<int>> Adjacency_List, int First_Vertex, bool[]visited,List<int>[] Spanning_Tree_2) //altering array of lists building up DFS spanning tree, recursive version
+        static void DFS_Spanning_Tree_R(List<List<int>> Adjacency_List, int First_Vertex, bool[]visited,List<int>[] Spanning_Tree_2) //altering array of lists building up DFS spanning tree, recursive version
         {
 
             int current_Vertex = First_Vertex;
@@ -140,7 +144,7 @@ namespace Reminder_of_Graphs
 
                     Spanning_Tree_2[current_Vertex].Add(Adjacency_List[current_Vertex][i]); //adding edge connecting parent and child
                     Spanning_Tree_2[Adjacency_List[current_Vertex][i]].Add(current_Vertex);  //adding edge connecting parent and child
-                    DFS_Spanning_Tree_2(Adjacency_List, Adjacency_List[current_Vertex][i], visited,Spanning_Tree_2);
+                    DFS_Spanning_Tree_R(Adjacency_List, Adjacency_List[current_Vertex][i], visited,Spanning_Tree_2); //both lines are necessary if we are considering undirected graph
 
                 }
             }
@@ -164,6 +168,70 @@ namespace Reminder_of_Graphs
             }
             
         }
+
+        static void DFS_Order_and_Counting(List<List<int>> Adjacency_List, int First_Vertex, int[]Vertices_DFS_Numbers) //vertices starting from 0
+        {
+
+                //for (int i = 0; i < Vertices_DFS_Numbers.Length; i++)
+                //{
+                //Vertices_DFS_Numbers[i] = -1;
+                //}
+
+            int i1 = 1;
+
+                bool[] visited = new bool[Adjacency_List.Count];
+
+                for (int i = 0; i < visited.Length; i++)
+                {
+                    visited[i] = false;
+                }
+                Stack<int> s1 = new Stack<int>();
+
+                s1.Push(First_Vertex);
+                visited[First_Vertex] = true;
+
+                while (s1.Count > 0)
+                {
+                    int current_Vertex = s1.Pop();
+                Vertices_DFS_Numbers[current_Vertex] = i1;
+                i1++;
+                    visited[current_Vertex] = true;
+                    Console.Write(current_Vertex + " ");
+                    for (int i = Adjacency_List[current_Vertex].Count - 1; i >= 0; i--)
+                    {
+                        if (visited[Adjacency_List[current_Vertex][i]] != true)
+                        {
+
+                            s1.Push(Adjacency_List[current_Vertex][i]);
+                        }
+                    }
+                }
+                Console.WriteLine();
+            
+        }
+
+        //static void DFS_Order_And_Counting_R(List<List<int>> Adjacency_List, int First_Vertex, bool[] visited,int[]Vertices_DFS_Numbers, int i1)
+        //{
+
+
+        //    int current_Vertex = First_Vertex;
+        //    visited[current_Vertex] = true;
+        //    Vertices_DFS_Numbers[current_Vertex] = i1;
+        //    i1++;
+        //    Console.Write(current_Vertex + " ");
+
+        //    for (int i = 0; i < Adjacency_List[current_Vertex].Count; i++)
+        //    {
+        //        if (visited[Adjacency_List[current_Vertex][i]] != true) //unvisited neighboor
+        //        {
+
+        //            DFS_Order_And_Counting_R(Adjacency_List, Adjacency_List[current_Vertex][i], visited,Vertices_DFS_Numbers,i1++);
+
+        //        }
+        //    }
+        //    i1++;
+
+        //}
         static void Clearing_Bool_Table(bool[] t1)
         {
             for (int i = 0; i < t1.Length; i++)
