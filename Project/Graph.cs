@@ -50,9 +50,9 @@ namespace Project
         }
         private void RemoveDulicates(List<List<int>> lists)
         {
-            foreach (var item in lists)
+            for (int i = 0; i < AdjacencyList.Count; i++)
             {
-                item.Distinct().ToList();
+                lists[i] = lists[i].Distinct().ToList(); 
             }
         }
     }
