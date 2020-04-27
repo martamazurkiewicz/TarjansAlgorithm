@@ -22,6 +22,7 @@ namespace Project
         public void AddNeighbors(List<string[]> neighboursLists)
         {
             List<List<int>> lists = ConvertNeighborsListsToInteger(neighboursLists);
+            RemoveDulicates(lists);
             for (int i = 0; i < AdjacencyList.Count; i++)
             {
                 if (lists[i].Count != 0)
@@ -46,6 +47,13 @@ namespace Project
                     lists.Add(neighborsLists[i].Select(Int32.Parse).ToList());
             } 
             return lists;
+        }
+        private void RemoveDulicates(List<List<int>> lists)
+        {
+            foreach (var item in lists)
+            {
+                item.Distinct().ToList();
+            }
         }
     }
 }
