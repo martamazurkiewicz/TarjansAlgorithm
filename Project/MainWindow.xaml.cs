@@ -21,8 +21,8 @@ namespace Project
     /// </summary>
     public partial class MainWindow : Window
     {
-        Graph graph;
-        List<TextBox> neighborsTextBoxes;
+        public Graph graph;
+        public List<TextBox> neighborsTextBoxes;
         public MainWindow()
         {
             this.WindowState = WindowState.Maximized;
@@ -126,7 +126,20 @@ namespace Project
             if (!textBoxesContentCorrect)
                 return;
             else
+                CheckInputAndAddNeighbours();
+        }
+
+        public void CheckInputAndAddNeighbours()
+        {
+            try
+            {
                 graph.AddNeighbors(ConvertNeighborsTextBoxesContentToStringArray());
+            }
+            catch (VortexBiggerThanTopVortexNumberException ex)
+            {
+                neighborsTextBoxes[Int32.Parse(ex.Message)].BorderBrush = new SolidColorBrush(Colors.Red);
+                MessageBox.Show($"Za duży number wierzchołka w {Int32.Parse(ex.Message) + 1} wierszu");
+            }
         }
 
         private bool RegexTextBox(TextBox tmp)

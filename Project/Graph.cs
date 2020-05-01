@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Windows;
 
 namespace Project
 {
-    public class Graph
+    public partial class Graph
     {
         public List<List<int>> AdjacencyList { get; private set; }
 
@@ -23,6 +24,32 @@ namespace Project
         {
             List<List<int>> lists = ConvertNeighborsListsToInteger(neighboursLists);
             RemoveDulicates(lists);
+            ConvertListsToStartWithOne(lists);
+            SortLists(lists);
+            CheckIfNumberInListsAreInRange(lists);
+            AddToAdjacencyList(lists);
+            
+        }
+
+        private void CheckIfNumberInListsAreInRange(List<List<int>> lists)
+        {
+            for (int i = 0; i < AdjacencyList.Count; i++)
+            {
+                if (lists[i][^1] > AdjacencyList.Count - 1)
+                    throw new VortexBiggerThanTopVortexNumberException(i.ToString());
+            }
+        }
+
+        private void SortLists(List<List<int>> lists)
+        {
+            for (int i = 0; i < AdjacencyList.Count; i++)
+            {
+                lists[i].Sort();
+            }
+        }
+
+        private void AddToAdjacencyList(List<List<int>> lists)
+        {
             for (int i = 0; i < AdjacencyList.Count; i++)
             {
                 if (lists[i].Count != 0)
@@ -32,6 +59,17 @@ namespace Project
                     {
                         AdjacencyList[i].Add(item);
                     }
+                }
+            }
+        }
+
+        private void ConvertListsToStartWithOne(List<List<int>> lists)
+        {
+            for (int i = 0; i < AdjacencyList.Count; i++)
+            {
+                for(int j = 0; j < lists[i].Count; j++)
+                {
+                    lists[i][j]--;
                 }
             }
         }

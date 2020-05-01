@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Project
 {
-    public class TarjansAlgorithm
+    public partial class Graph
     {
     }
 }
