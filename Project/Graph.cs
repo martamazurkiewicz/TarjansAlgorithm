@@ -35,7 +35,7 @@ namespace Project
         {
             for (int i = 0; i < AdjacencyList.Count; i++)
             {
-                if (lists[i][^1] > AdjacencyList.Count - 1)
+                if (lists[i].Count !=0 && lists[i][^1] > AdjacencyList.Count - 1)
                     throw new VortexBiggerThanTopVortexNumberException(i.ToString());
             }
         }
