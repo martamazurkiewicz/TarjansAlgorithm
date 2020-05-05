@@ -28,7 +28,7 @@ namespace Project
             this.WindowState = WindowState.Maximized;
             InitializeComponent();
             InitializeNumberOfVerticesBox();
-            neighborsTextBoxes = new List<TextBox>();
+            //neighborsTextBoxes = new List<TextBox>();
         }
         private void InitializeNumberOfVerticesBox()
         {
@@ -45,6 +45,7 @@ namespace Project
         {
             //index of items in combobox starts from 0, actual items starts from 1
             graph = new Graph(((ComboBox)sender).SelectedIndex + 1);
+            neighborsTextBoxes = new List<TextBox>();
             GenerateAdjacencyList();
         }
         private void GenerateAdjacencyList()
@@ -133,9 +134,11 @@ namespace Project
         {
             try
             {
-                graph.AddNeighbors(ConvertNeighborsTextBoxesContentToStringArray());
+                //GetListOfTextBoxesContent returns string list from all text boxes text
+                //AddNeighbors adds adjecency list to graph
+                graph.AddNeighbors(GetListOfTextBoxesContent());
             }
-            catch (VortexBiggerThanTopVortexNumberException ex)
+            catch (NeighboursListElementBiggerThanTopVortexException ex)
             {
                 neighborsTextBoxes[Int32.Parse(ex.Message)].BorderBrush = new SolidColorBrush(Colors.Red);
                 MessageBox.Show($"Za duży number wierzchołka w {Int32.Parse(ex.Message) + 1} wierszu");
@@ -155,15 +158,14 @@ namespace Project
                 return false;
             }
         }
-        private List<string[]> ConvertNeighborsTextBoxesContentToStringArray()
+        private List<string> GetListOfTextBoxesContent()
         {
-            List<string[]> lists = new List<string[]>();
+            List<string> textList = new List<string>();
             foreach (var item in neighborsTextBoxes)
             {
-                item.Text = Regex.Replace(item.Text, @"\s+", String.Empty);
-                lists.Add(item.Text.Split(','));
+                textList.Add(Regex.Replace(item.Text, @"\s+", String.Empty));
             }
-            return lists;
+            return textList;
         }
     }
 }
