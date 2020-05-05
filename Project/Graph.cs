@@ -20,18 +20,9 @@ namespace Project
             }
         }
 
-        public void AddNeighbors(List<string> textLists)
+        public void AddNeighbors(List<string> textList)
         {
-            List<List<int>> neighboursLists = ConvertNeighborsListsToIntegerLists(textLists);
-            for (int i = 0; i < AdjacencyList.Count; i++)
-            {
-                if (neighboursLists[i].Count > 0)
-                {
-                    neighboursLists[i].Sort();
-                    //throw exception if top number in neighboursList is bigger than top vortex number
-                    CheckIfNeighboursListAreInRange(neighboursLists[i], i);
-                }
-            }
+            List<List<int>> neighboursLists = ConvertTextListsToIntegersAndChangeTheirRange(textList);
             for (int i = 0; i < AdjacencyList.Count; i++)
             {   
                 if (neighboursLists[i].Count > 0)
@@ -51,31 +42,36 @@ namespace Project
             }
 
         }
-        public List<List<int>> ConvertNeighborsListsToIntegerLists(List<string> textLists)
+
+        private List<List<int>> ConvertTextListsToIntegersAndChangeTheirRange(List<string> textList)
         {
             List<List<int>> neighboursLists = new List<List<int>>();
             for (int i = 0; i < AdjacencyList.Count; i++)
             {
-                string[] neighboursArray = textLists[i].Split(',');
-                if(neighboursArray[0] != "")
+                neighboursLists.Add(ConvertTextListToIntegerList(textList[i]));
+                if (neighboursLists[i].Count > 0)
                 {
-                    neighboursLists.Add(neighboursArray.Select(Int32.Parse).ToList());
-                }
-                else
-                {
-                    neighboursLists.Add(new List<int>());
+                    neighboursLists[i].Sort();
+                    //throw exception if top number in neighboursList is bigger than top vortex number
+                    CheckIfNeighboursListAreInRange(neighboursLists[i], i);
                 }
             }
             return neighboursLists;
         }
 
-        public void CheckIfNeighboursListAreInRange(List<int> neighboursList, int vortexNumber)
+        private List<int> ConvertTextListToIntegerList(string text)
+        {
+                string[] neighboursArray = text.Split(',');
+                return neighboursArray[0] != "" ? neighboursArray.Select(Int32.Parse).ToList() : new List<int>();
+        }
+
+        private void CheckIfNeighboursListAreInRange(List<int> neighboursList, int vortexNumber)
         {
             if (neighboursList.Count != 0 && neighboursList[^1] > AdjacencyList.Count)
                 throw new NeighboursListElementBiggerThanTopVortexException(vortexNumber.ToString());
         }
 
-        public void VerticesInNeighboursListStartsFromZero(List<int> neighboursList)
+        private void VerticesInNeighboursListStartsFromZero(List<int> neighboursList)
         {
             for (int i = 0; i < neighboursList.Count; i++)
             {
@@ -83,7 +79,7 @@ namespace Project
             }
         }
 
-        public void DeleteVortexFromItsOwnNeighboursList(int vortex, List<int> neighboursList)
+        private void DeleteVortexFromItsOwnNeighboursList(int vortex, List<int> neighboursList)
         {
             if (neighboursList.Contains(vortex))
                 neighboursList.RemoveAll(item => item == vortex);

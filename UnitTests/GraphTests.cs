@@ -8,24 +8,6 @@ namespace UnitTests
     public class GraphTests
     {
         [Test]
-        public void ConvertNeighborsListsToIntegerListsTest()
-        {
-            var graph = new Graph(4);
-            var textList = new List<string>(){
-                "5,8,4",
-                "",
-                "3,3",
-                "9,1,2"
-            };
-            var expectedOutput = new List<List<int>>(){
-                new List<int>(){5,8,4},
-                new List<int>(),
-                new List<int>(){3,3},
-                new List<int>(){9,1,2}
-            };
-            Assert.AreEqual(expectedOutput, graph.ConvertNeighborsListsToIntegerLists(textList));
-        }
-        [Test]
         public void AddNeighborsTest1()
         {
             var graph = new Graph(9);
@@ -53,6 +35,7 @@ namespace UnitTests
                 };
             Assert.AreEqual(expectedOutput, graph.AdjacencyList);
         }
+
         [Test]
         public void AddNeighborsTest2()
         {
@@ -81,6 +64,7 @@ namespace UnitTests
                 };
             Assert.AreEqual(expectedOutput, graph.AdjacencyList);
         }
+
         [Test]
         public void AddNeighborsFailTest()
         {
@@ -92,6 +76,57 @@ namespace UnitTests
                     "9,1,2"
                 }));
         }
-        
+
+        //tests of private functions used for debugging while solving issues
+        /*
+        [Test]
+        public void ConvertTextListToIntegerListTest()
+        {
+            var graph = new Graph(4);
+            Assert.AreEqual(new List<int>() { 5, 8, 4 }, graph.ConvertTextListToIntegerList("5,8,4"));
+        }
+        [Test]
+        public void CheckIfNeighboursListAreInRangeFailTest()
+        {
+            var graph = new Graph(4);
+            Assert.Throws<NeighboursListElementBiggerThanTopVortexException>(() =>
+                graph.CheckIfNeighboursListAreInRange(new List<int>() { 2, 2, 4, 7, 8 }, 0));
+        }
+        [Test]
+        public void CheckIfNeighboursListAreInRangeTest()
+        {
+            var graph = new Graph(4);
+            Assert.DoesNotThrow(() =>
+                graph.CheckIfNeighboursListAreInRange(new List<int>() { 2, 2, 4 }, 0));
+        }
+        [Test]
+        public void ConvertTextListsToIntegersAndChangeTheirRangeTest()
+        {
+            var graph = new Graph(9);
+            var textList = new List<string>(){
+                "5,8,4",
+                "",
+                "",
+                "2,3",
+                "8,9",
+                "3,3",
+                "9,1,2",
+                "",
+                "1,2"
+            };
+            var expectedOutput = new List<List<int>>(){
+                new List<int>(){4,5,8},
+                new List<int>(),
+                new List<int>(),
+                new List<int>(){2,3},
+                new List<int>(){8,9},
+                new List<int>(){3,3},
+                new List<int>(){1,2,9},
+                new List<int>(),
+                new List<int>(){1,2}
+            };
+            Assert.AreEqual(expectedOutput, graph.ConvertTextListsToIntegersAndChangeTheirRange(textList));
+        }
+        */
     }
 }

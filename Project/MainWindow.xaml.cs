@@ -28,7 +28,6 @@ namespace Project
             this.WindowState = WindowState.Maximized;
             InitializeComponent();
             InitializeNumberOfVerticesBox();
-            //neighborsTextBoxes = new List<TextBox>();
         }
         private void InitializeNumberOfVerticesBox()
         {
@@ -45,6 +44,7 @@ namespace Project
         {
             //index of items in combobox starts from 0, actual items starts from 1
             graph = new Graph(((ComboBox)sender).SelectedIndex + 1);
+            //changing the number of vertices require new neighborsTextBoxes list
             neighborsTextBoxes = new List<TextBox>();
             GenerateAdjacencyList();
         }
@@ -140,8 +140,7 @@ namespace Project
             }
             catch (NeighboursListElementBiggerThanTopVortexException ex)
             {
-                neighborsTextBoxes[Int32.Parse(ex.Message)].BorderBrush = new SolidColorBrush(Colors.Red);
-                MessageBox.Show($"Za duży number wierzchołka w {Int32.Parse(ex.Message) + 1} wierszu");
+                DisplayErrorMessageBox(ex.Message);
             }
         }
 
@@ -166,6 +165,11 @@ namespace Project
                 textList.Add(Regex.Replace(item.Text, @"\s+", String.Empty));
             }
             return textList;
+        }
+        private void DisplayErrorMessageBox(string message)
+        {
+            neighborsTextBoxes[Int32.Parse(message)].BorderBrush = new SolidColorBrush(Colors.Red);
+            MessageBox.Show($"Za duży number wierzchołka w {Int32.Parse(message) + 1} wierszu");
         }
     }
 }
