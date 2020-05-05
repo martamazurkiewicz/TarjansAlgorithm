@@ -21,14 +21,13 @@ namespace Project
     /// </summary>
     public partial class MainWindow : Window
     {
-        Graph graph;
-        List<TextBox> neighborsTextBoxes;
+        public Graph graph;
+        public List<TextBox> neighborsTextBoxes;
         public MainWindow()
         {
             this.WindowState = WindowState.Maximized;
             InitializeComponent();
             InitializeNumberOfVerticesBox();
-            neighborsTextBoxes = new List<TextBox>();
         }
         private void InitializeNumberOfVerticesBox()
         {
@@ -45,6 +44,8 @@ namespace Project
         {
             //index of items in combobox starts from 0, actual items starts from 1
             graph = new Graph(((ComboBox)sender).SelectedIndex + 1);
+            //changing the number of vertices require new neighborsTextBoxes list
+            neighborsTextBoxes = new List<TextBox>();
             GenerateAdjacencyList();
         }
         private void GenerateAdjacencyList()
@@ -126,7 +127,21 @@ namespace Project
             if (!textBoxesContentCorrect)
                 return;
             else
-                graph.AddNeighbors(ConvertNeighborsTextBoxesContentToStringArray());
+                CheckInputAndAddNeighbours();
+        }
+
+        public void CheckInputAndAddNeighbours()
+        {
+            try
+            {
+                //GetListOfTextBoxesContent returns string list from all text boxes text
+                //AddNeighbors adds adjecency list to graph
+                graph.AddNeighbors(GetListOfTextBoxesContent());
+            }
+            catch (NeighboursListElementBiggerThanTopVortexException ex)
+            {
+                DisplayErrorMessageBox(ex.Message);
+            }
         }
 
         private bool RegexTextBox(TextBox tmp)
@@ -142,15 +157,19 @@ namespace Project
                 return false;
             }
         }
-        private List<string[]> ConvertNeighborsTextBoxesContentToStringArray()
+        private List<string> GetListOfTextBoxesContent()
         {
-            List<string[]> lists = new List<string[]>();
+            List<string> textList = new List<string>();
             foreach (var item in neighborsTextBoxes)
             {
-                item.Text = Regex.Replace(item.Text, @"\s+", String.Empty);
-                lists.Add(item.Text.Split(','));
+                textList.Add(Regex.Replace(item.Text, @"\s+", String.Empty));
             }
-            return lists;
+            return textList;
+        }
+        private void DisplayErrorMessageBox(string message)
+        {
+            neighborsTextBoxes[Int32.Parse(message)].BorderBrush = new SolidColorBrush(Colors.Red);
+            MessageBox.Show($"Za duży number wierzchołka w {Int32.Parse(message) + 1} wierszu");
         }
     }
 }
