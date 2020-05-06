@@ -8,6 +8,7 @@ namespace Reminder_of_Graphs
 {
     class Program
     {
+        static int iterator_one = 1;
         static void Main(string[] args)
         {
             List<List<int>> Graph_1 = new List<List<int>>();
@@ -59,6 +60,9 @@ namespace Reminder_of_Graphs
             int[] DFS_Numbers = new int[Graph_1.Count];
             int[] DFS_Numbers2 = new int[Graph_1.Count];
             DFS_Order_and_Counting(Graph_1,0,DFS_Numbers);
+            DFS_Order_And_Counting_R(Graph_1, 0, visited, DFS_Numbers2);
+            Clearing_Bool_Table(visited);
+            iterator_one = 1;
             Console.ReadKey();
         }
         static void DFS_Order(List<List<int>>Adjacency_List, int First_Vertex) //vertices starting from 0 
@@ -172,11 +176,7 @@ namespace Reminder_of_Graphs
         static void DFS_Order_and_Counting(List<List<int>> Adjacency_List, int First_Vertex, int[]Vertices_DFS_Numbers) //vertices starting from 0
         {
 
-                //for (int i = 0; i < Vertices_DFS_Numbers.Length; i++)
-                //{
-                //Vertices_DFS_Numbers[i] = -1;
-                //}
-
+             
             int i1 = 1;
 
                 bool[] visited = new bool[Adjacency_List.Count];
@@ -210,28 +210,28 @@ namespace Reminder_of_Graphs
             
         }
 
-        //static void DFS_Order_And_Counting_R(List<List<int>> Adjacency_List, int First_Vertex, bool[] visited,int[]Vertices_DFS_Numbers, int i1)
-        //{
+        static void DFS_Order_And_Counting_R(List<List<int>> Adjacency_List, int First_Vertex, bool[] visited, int[] Vertices_DFS_Numbers)
+        {
 
 
-        //    int current_Vertex = First_Vertex;
-        //    visited[current_Vertex] = true;
-        //    Vertices_DFS_Numbers[current_Vertex] = i1;
-        //    i1++;
-        //    Console.Write(current_Vertex + " ");
+            int current_Vertex = First_Vertex;
+            visited[current_Vertex] = true;
+            Vertices_DFS_Numbers[current_Vertex] = iterator_one;
+            iterator_one++;
+            Console.Write(current_Vertex + " ");
 
-        //    for (int i = 0; i < Adjacency_List[current_Vertex].Count; i++)
-        //    {
-        //        if (visited[Adjacency_List[current_Vertex][i]] != true) //unvisited neighboor
-        //        {
+            for (int i = 0; i < Adjacency_List[current_Vertex].Count; i++)
+            {
+                if (visited[Adjacency_List[current_Vertex][i]] != true) //unvisited neighbor
+                {
 
-        //            DFS_Order_And_Counting_R(Adjacency_List, Adjacency_List[current_Vertex][i], visited,Vertices_DFS_Numbers,i1++);
+                    DFS_Order_And_Counting_R(Adjacency_List, Adjacency_List[current_Vertex][i], visited, Vertices_DFS_Numbers);
 
-        //        }
-        //    }
-        //    i1++;
+                }
+            }
+           
 
-        //}
+        }
         static void Clearing_Bool_Table(bool[] t1)
         {
             for (int i = 0; i < t1.Length; i++)
