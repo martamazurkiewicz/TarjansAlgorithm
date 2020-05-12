@@ -8,6 +8,7 @@ namespace Project
     {
         //Tarjan's algorithm output - list of bridges
         //integer arrays in list always have 2 elements - 2 vertices of an edge
+        //used in main window
         public List<int[]> Bridges { get; private set; }
 
         public int iterator_one;
@@ -21,6 +22,12 @@ namespace Project
         public Graph(List<List<int>> graph)
         {
             this.graph = graph;
+            
+        }
+
+        //used in main window
+        public void Tarjan_Bridges()
+        {
             Bridges = new List<int[]>();
             visited = new bool[graph.Count];
             low_array = new int[graph.Count];
@@ -29,8 +36,9 @@ namespace Project
             set_Spanning_Tree();
             set_DFS_Array();
             set_Parents_Array();
+            Tarjan_Bridges(AdjacencyList, 0, new bool[AdjacencyList.Count]);
         }
-        public void Tarjan_Bridges(List<List<int>> Adjacency_List, int First_Vertex, bool[] visited)
+        public void Tarjan_Bridges(List<List<int>> Adjacency_List, int First_Vertex)
         {
 
             int current_Vertex = First_Vertex;
