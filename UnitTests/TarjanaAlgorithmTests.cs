@@ -29,7 +29,7 @@ namespace UnitTests
         public void GetBridgesTest()
         {
             graph.Tarjan_Bridges();
-            List<int[]> bridges = new List<int[]>() { new int[] { 0, 1 } };
+            List<int[]> bridges = new List<int[]>() { new int[] { 1,0 } };
             Assert.AreEqual(bridges, graph.Bridges);
         }
     }
