@@ -21,6 +21,7 @@ namespace Project
     /// </summary>
     public partial class MainWindow : Window
     {
+        int numberOfVertices;
         public Graph graph;
         public List<TextBox> neighborsTextBoxes;
         public MainWindow()
@@ -43,7 +44,8 @@ namespace Project
         private void NumberOfVerticesBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             //index of items in combobox starts from 0, actual items starts from 1
-            graph = new Graph(((ComboBox)sender).SelectedIndex + 1);
+            
+            numberOfVertices = ((ComboBox)sender).SelectedIndex + 1;
             //changing the number of vertices require new neighborsTextBoxes list
             neighborsTextBoxes = new List<TextBox>();
             GenerateAdjacencyList();
@@ -60,12 +62,12 @@ namespace Project
 
         private void DisplayAdjacencyList()
         {
-            for (int i = 0; i < graph.AdjacencyList.Count; i++)
+            for (int i = 0; i < numberOfVertices; i++)
             {
                 GenerateVerticesLabels(i);
                 GenerateNeighborsTextBoxes(i);
             }
-            GenerateProceedButton(graph.AdjacencyList.Count);
+            GenerateProceedButton(numberOfVertices);
         }
 
         private void GenerateVerticesLabels(int labelNumber)
@@ -136,6 +138,7 @@ namespace Project
             {
                 //GetListOfTextBoxesContent returns string list from all text boxes text
                 //AddNeighbors adds adjecency list to graph
+                graph = new Graph(numberOfVertices);
                 graph.AddNeighbors(GetListOfTextBoxesContent());
                 GetOutput();
             }
