@@ -137,6 +137,7 @@ namespace Project
                 //GetListOfTextBoxesContent returns string list from all text boxes text
                 //AddNeighbors adds adjecency list to graph
                 graph.AddNeighbors(GetListOfTextBoxesContent());
+                GetOutput();
             }
             catch (NeighboursListElementBiggerThanTopVortexException ex)
             {
@@ -144,9 +145,15 @@ namespace Project
             }
         }
 
+        private void GetOutput()
+        {
+            graph.Tarjan_Bridges();
+            MessageBox.Show(graph.ToString());
+        }
+
         private bool RegexTextBox(TextBox tmp)
         {
-            if (Regex.IsMatch(tmp.Text, @"^([1-9]\d*(\s,[1-9]\d*|,[1-9]\d*|,\s[1-9]\d*|\s,\s[1-9]\d*)*)?$"))
+            if (Regex.IsMatch(tmp.Text, @"^([1-9]\d{0,1}(\s,[1-9]\d{0,1}|,[1-9]\d{0,1}|,\s[1-9]\d{0,1}|\s,\s[1-9]\d{0,1})*)?$"))
             {
                 tmp.BorderBrush = new SolidColorBrush(Colors.LightGray);
                 return true;

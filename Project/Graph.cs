@@ -84,5 +84,17 @@ namespace Project
             if (neighboursList.Contains(vortex))
                 neighboursList.RemoveAll(item => item == vortex);
         }
+
+        //ToString shows bridges list
+        public override string ToString()
+        {
+
+            string retval = "Mosty:" + Environment.NewLine;
+            foreach (var bridge in Bridges)
+            {
+                retval += $"{bridge[0]+1},{bridge[1]+1}" + Environment.NewLine;
+            }
+            return retval;
+        }
     }
 }
