@@ -137,11 +137,18 @@ namespace Project
                 //GetListOfTextBoxesContent returns string list from all text boxes text
                 //AddNeighbors adds adjecency list to graph
                 graph.AddNeighbors(GetListOfTextBoxesContent());
+                GetOutput();
             }
             catch (NeighboursListElementBiggerThanTopVortexException ex)
             {
                 DisplayErrorMessageBox(ex.Message);
             }
+        }
+
+        private void GetOutput()
+        {
+            graph.Tarjan_Bridges();
+            MessageBox.Show(graph.ToString());
         }
 
         private bool RegexTextBox(TextBox tmp)
