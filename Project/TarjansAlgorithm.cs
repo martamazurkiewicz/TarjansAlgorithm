@@ -11,13 +11,13 @@ namespace Project
         //used in main window
         public List<int[]> Bridges { get; private set; }
 
-         int iterator_one = 1;
-       
-         int[] dfs_numbers;
-         int?[] parents_array;
-         List<int>[] spanning_tree_2;
-         int[] low_array; //array for low parameter for every vertex
-         bool[] visited;
+        int iterator_one = 1;
+
+        int[] dfs_numbers;
+        int?[] parents_array;
+        List<int>[] spanning_tree_2;
+        int[] low_array; //array for low parameter for every vertex
+        bool[] visited;
 
         public void Tarjan_Bridges()
         {
@@ -33,12 +33,12 @@ namespace Project
             Clearing_Bool_Table();
             iterator_one = 1;
         }
-     void Tarjan_Bridges(int First_Vertex)
+        void Tarjan_Bridges(int First_Vertex)
         {
 
             int current_Vertex = First_Vertex;
             visited[current_Vertex] = true;
-            
+
 
             for (int i = 0; i < AdjacencyList[current_Vertex].Count; i++)
             {
@@ -48,7 +48,7 @@ namespace Project
 
                 }
             } //end of branch
-            
+
             int low_tmp = dfs_numbers[current_Vertex]; //first initialization of low parameter
             //checking for sons' low parameters
             for (int i = 0; i < spanning_tree_2[current_Vertex].Count; i++)
@@ -77,7 +77,7 @@ namespace Project
                             returning_edge = false;
                         }
                     }
-                    
+
 
                 }//not father nor son
                 if (returning_edge == true)
@@ -92,13 +92,13 @@ namespace Project
             low_array[current_Vertex] = low_tmp;
             if (low_array[current_Vertex] == dfs_numbers[current_Vertex] && parents_array[current_Vertex] != null)
             {
-               
+
                 Bridges.Add(new int[] { current_Vertex, (int)parents_array[current_Vertex] });
             }
 
 
         }
-         void Set_Spanning_Tree() //dfs spanning tree
+        void Set_Spanning_Tree() //dfs spanning tree
         {
             for (int i = 0; i < spanning_tree_2.Length; i++)
             {
@@ -107,12 +107,12 @@ namespace Project
             DFS_Spanning_Tree_R(0);
             Clearing_Bool_Table();
         }
-         void Set_DFS_Array() //array for dfs numbers of vertices
+        void Set_DFS_Array() //array for dfs numbers of vertices
         {
             DFS_Array_R(0);
             Clearing_Bool_Table();
         }
-         void Set_Parents_Array() //array of parents for every vertex
+        void Set_Parents_Array() //array of parents for every vertex
         {
             parents_array = DFS_Parents_Array();
             Clearing_Bool_Table();
@@ -125,12 +125,12 @@ namespace Project
                 visited[i] = false;
             }
         }
-         void DFS_Spanning_Tree_R(int First_Vertex) //altering array of lists building up DFS spanning tree, recursive version
+        void DFS_Spanning_Tree_R(int First_Vertex) //altering array of lists building up DFS spanning tree, recursive version
         {
             //version where spanning tree doesnt have child-parent edges, only edges from parent to child
             int current_Vertex = First_Vertex;
             visited[current_Vertex] = true;
-          
+
 
             for (int i = 0; i < AdjacencyList[current_Vertex].Count; i++)
             {
@@ -143,7 +143,7 @@ namespace Project
                 }
             }
         }
-          void DFS_Array_R(int First_Vertex)//array for vertices dfs numbers
+        void DFS_Array_R(int First_Vertex)//array for vertices dfs numbers
         {
             int current_Vertex = First_Vertex;
             visited[current_Vertex] = true;
@@ -162,7 +162,7 @@ namespace Project
             }
         }
 
-          int?[] DFS_Parents_Array() //array for vertices' parents
+        int?[] DFS_Parents_Array() //array for vertices' parents
         {
             int?[] parents_array = new int?[spanning_tree_2.Length];
             for (int i = 0; i < spanning_tree_2.Length; i++) //parents
