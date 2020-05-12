@@ -64,6 +64,30 @@ namespace UnitTests
                 };
             Assert.AreEqual(expectedOutput, graph.AdjacencyList);
         }
+        [Test]
+        public void AddNeighborsTest3()
+        {
+            var graph = new Graph(7);
+            graph.AddNeighbors(new List<string>(){
+                "2,3,4",
+                "1,5,6",
+                "1,4,7",
+                "1,3,7",
+                "2,6",
+                "2,5",
+                "3,4"
+                });
+            var expectedOutput = new List<List<int>>(){
+                    new List<int>(){1,2,3},
+                    new List<int>(){0,4,5},
+                    new List<int>(){0,3,6},
+                    new List<int>(){0,2,6},
+                    new List<int>(){1,5},
+                    new List<int>(){1,4},
+                    new List<int>(){2,3}
+                };
+            Assert.AreEqual(expectedOutput, graph.AdjacencyList);
+        }
 
         [Test]
         public void AddNeighborsFailTest()
