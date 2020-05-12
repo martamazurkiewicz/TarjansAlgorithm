@@ -38,7 +38,7 @@ namespace Project
 
             int current_Vertex = First_Vertex;
             visited[current_Vertex] = true;
-            //   Console.Write(current_Vertex + " ");
+            
 
             for (int i = 0; i < AdjacencyList[current_Vertex].Count; i++)
             {
@@ -92,7 +92,7 @@ namespace Project
             low_array[current_Vertex] = low_tmp;
             if (low_array[current_Vertex] == dfs_numbers[current_Vertex] && parents_array[current_Vertex] != null)
             {
-               // Console.WriteLine("Most: " + current_Vertex + " " + parents_array[current_Vertex]);
+               
                 Bridges.Add(new int[] { current_Vertex, (int)parents_array[current_Vertex] });
             }
 
@@ -130,7 +130,7 @@ namespace Project
             //version where spanning tree doesnt have child-parent edges, only edges from parent to child
             int current_Vertex = First_Vertex;
             visited[current_Vertex] = true;
-            //Console.Write(current_Vertex + " ");
+          
 
             for (int i = 0; i < AdjacencyList[current_Vertex].Count; i++)
             {
