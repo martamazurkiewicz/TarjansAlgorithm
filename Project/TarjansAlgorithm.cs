@@ -13,11 +13,11 @@ namespace Project
 
         public int iterator_one = 1;
        
-        public int[] dfs_numbers;
-        public int?[] parents_array;
-        public List<int>[] spanning_tree_2;
-        public int[] low_array; //array for low parameter for every vertex
-        public bool[] visited;
+         int[] dfs_numbers;
+         int?[] parents_array;
+         List<int>[] spanning_tree_2;
+         int[] low_array; //array for low parameter for every vertex
+         bool[] visited;
 
         public void Tarjan_Bridges()
         {
@@ -31,7 +31,7 @@ namespace Project
             Set_Parents_Array();
             Tarjan_Bridges(0);
         }
-    public void Tarjan_Bridges(int First_Vertex)
+     void Tarjan_Bridges(int First_Vertex)
         {
 
             int current_Vertex = First_Vertex;
@@ -96,7 +96,7 @@ namespace Project
 
 
         }
-        public void Set_Spanning_Tree() //dfs spanning tree
+         void Set_Spanning_Tree() //dfs spanning tree
         {
             for (int i = 0; i < spanning_tree_2.Length; i++)
             {
@@ -105,25 +105,25 @@ namespace Project
             DFS_Spanning_Tree_R(AdjacencyList, 0, visited, spanning_tree_2);
             Clearing_Bool_Table(visited);
         }
-        public void Set_DFS_Array() //array for dfs numbers of vertices
+         void Set_DFS_Array() //array for dfs numbers of vertices
         {
             DFS_Array_R(AdjacencyList, 0, visited, dfs_numbers);
             Clearing_Bool_Table(visited);
         }
-        public void Set_Parents_Array() //array of parents for every vertex
+         void Set_Parents_Array() //array of parents for every vertex
         {
             parents_array = DFS_Parents_Array(spanning_tree_2);
             Clearing_Bool_Table(visited);
         }
 
-        public void Clearing_Bool_Table(bool[] t1)
+        void Clearing_Bool_Table(bool[] t1)
         {
             for (int i = 0; i < t1.Length; i++)
             {
                 t1[i] = false;
             }
         }
-        public void DFS_Spanning_Tree_R(List<List<int>> Adjacency_List, int First_Vertex, bool[] visited, List<int>[] Spanning_Tree_2) //altering array of lists building up DFS spanning tree, recursive version
+         void DFS_Spanning_Tree_R(List<List<int>> Adjacency_List, int First_Vertex, bool[] visited, List<int>[] Spanning_Tree_2) //altering array of lists building up DFS spanning tree, recursive version
         {
             //version where spanning tree doesnt have child-parent edges, only edges from parent to child
             int current_Vertex = First_Vertex;
@@ -141,7 +141,7 @@ namespace Project
                 }
             }
         }
-        public  void DFS_Array_R(List<List<int>> Adjacency_List, int First_Vertex, bool[] visited, int[] Vertices_DFS_Numbers)//array for vertices dfs numbers
+          void DFS_Array_R(List<List<int>> Adjacency_List, int First_Vertex, bool[] visited, int[] Vertices_DFS_Numbers)//array for vertices dfs numbers
         {
             int current_Vertex = First_Vertex;
             visited[current_Vertex] = true;
@@ -160,7 +160,7 @@ namespace Project
             }
         }
 
-        public static int?[] DFS_Parents_Array(List<int>[] DFS_Spanning_Tree) //array for vertices' parents
+         static int?[] DFS_Parents_Array(List<int>[] DFS_Spanning_Tree) //array for vertices' parents
         {
             int?[] parents_array = new int?[DFS_Spanning_Tree.Length];
             for (int i = 0; i < DFS_Spanning_Tree.Length; i++) //parents
