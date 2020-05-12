@@ -11,7 +11,7 @@ namespace Project
         //used in main window
         public List<int[]> Bridges { get; private set; }
 
-        public int iterator_one = 1;
+         int iterator_one = 1;
        
          int[] dfs_numbers;
          int?[] parents_array;
@@ -30,7 +30,7 @@ namespace Project
             Set_DFS_Array();
             Set_Parents_Array();
             Tarjan_Bridges(0);
-            Clearing_Bool_Table(visited);
+            Clearing_Bool_Table();
             iterator_one = 1;
         }
      void Tarjan_Bridges(int First_Vertex)
@@ -105,24 +105,24 @@ namespace Project
                 spanning_tree_2[i] = new List<int>();
             }
             DFS_Spanning_Tree_R(0);
-            Clearing_Bool_Table(visited);
+            Clearing_Bool_Table();
         }
          void Set_DFS_Array() //array for dfs numbers of vertices
         {
             DFS_Array_R(0);
-            Clearing_Bool_Table(visited);
+            Clearing_Bool_Table();
         }
          void Set_Parents_Array() //array of parents for every vertex
         {
             parents_array = DFS_Parents_Array();
-            Clearing_Bool_Table(visited);
+            Clearing_Bool_Table();
         }
 
-        void Clearing_Bool_Table(bool[] t1)
+        void Clearing_Bool_Table()
         {
-            for (int i = 0; i < t1.Length; i++)
+            for (int i = 0; i < visited.Length; i++)
             {
-                t1[i] = false;
+                visited[i] = false;
             }
         }
          void DFS_Spanning_Tree_R(int First_Vertex) //altering array of lists building up DFS spanning tree, recursive version
