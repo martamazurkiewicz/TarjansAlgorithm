@@ -28,9 +28,9 @@ namespace UnitTests
         [Test]
         public void GetBridgesTest()
         {
-            graph.Tarjan_Bridges(graph.AdjacencyList, 0, new bool[graph.AdjacencyList.Count]);
-            List<int[]> brigdes = new List<int[]>() { new int[] { 0, 1 } };
-            Assert.AreEqual(brigdes, graph.Bridges);
+            graph.Tarjan_Bridges();
+            List<int[]> bridges = new List<int[]>() { new int[] { 0, 1 } };
+            Assert.AreEqual(bridges, graph.Bridges);
         }
     }
 }
