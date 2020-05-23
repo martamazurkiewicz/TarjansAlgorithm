@@ -29,50 +29,65 @@ namespace Project
             Set_Spanning_Tree();
             Set_DFS_Array();
             Set_Parents_Array();
-            Tarjan_Bridges(0);
-            Clearing_Bool_Table();
+            set_Tarjan_Bridges();
+            
             iterator_one = 1;
+        }
+         void set_Tarjan_Bridges()
+        {
+            int first_vertex = 0;
+            while (isVisited() == false)
+            {
+                Tarjan_Bridges( first_vertex++);
+
+            }
+            Clearing_Bool_Table();
+
         }
         void Tarjan_Bridges(int First_Vertex)
         {
 
-            int current_Vertex = First_Vertex;
-            visited[current_Vertex] = true;
-
-
-            for (int i = 0; i < AdjacencyList[current_Vertex].Count; i++)
+            if (visited[First_Vertex] == true)
             {
-                if (visited[AdjacencyList[current_Vertex][i]] != true) //unvisited neighboor
-                {
-                    Tarjan_Bridges(AdjacencyList[current_Vertex][i]);
+                return;
+            }
+            visited[First_Vertex] = true;
 
+
+            List<int> vList = AdjacencyList[First_Vertex];
+            foreach (var n in vList)
+            {
+                if (!visited[n]) //unvisited neighboor
+                {
+                    Tarjan_Bridges(n);
                 }
+
             } //end of branch
 
-            int low_tmp = dfs_numbers[current_Vertex]; //first initialization of low parameter
+            int low_tmp = dfs_numbers[First_Vertex]; //first initialization of low parameter
             //checking for sons' low parameters
-            for (int i = 0; i < spanning_tree_2[current_Vertex].Count; i++)
+            for (int i = 0; i < spanning_tree_2[First_Vertex].Count; i++)
             {
-                if (low_array[spanning_tree_2[current_Vertex][i]] != 0 && low_array[spanning_tree_2[current_Vertex][i]] < low_tmp)
+                if (low_array[spanning_tree_2[First_Vertex][i]] != 0 && low_array[spanning_tree_2[First_Vertex][i]] < low_tmp)
                 {
-                    low_tmp = low_array[spanning_tree_2[current_Vertex][i]];
+                    low_tmp = low_array[spanning_tree_2[First_Vertex][i]];
                 }
             }
             //checking for other 'current vertex' neighbors
 
-            for (int i = 0; i < AdjacencyList[current_Vertex].Count; i++)
+            for (int i = 0; i < AdjacencyList[First_Vertex].Count; i++)
             {
                 bool returning_edge = true;
-                if (AdjacencyList[current_Vertex][i] == parents_array[current_Vertex]) //father
+                if (AdjacencyList[First_Vertex][i] == parents_array[First_Vertex]) //father
                 {
                     returning_edge = false;
                 }
-                if (AdjacencyList[current_Vertex][i] != parents_array[current_Vertex]) //not father
+                if (AdjacencyList[First_Vertex][i] != parents_array[First_Vertex]) //not father
                 {
 
-                    for (int j = 0; j < spanning_tree_2[current_Vertex].Count; j++) //but son
+                    for (int j = 0; j < spanning_tree_2[First_Vertex].Count; j++) //but son
                     {
-                        if (AdjacencyList[current_Vertex][i] == spanning_tree_2[current_Vertex][j])
+                        if (AdjacencyList[First_Vertex][i] == spanning_tree_2[First_Vertex][j])
                         {
                             returning_edge = false;
                         }
@@ -82,34 +97,57 @@ namespace Project
                 }//not father nor son
                 if (returning_edge == true)
                 {
-                    if (dfs_numbers[AdjacencyList[current_Vertex][i]] < low_tmp)
+                    if (dfs_numbers[AdjacencyList[First_Vertex][i]] < low_tmp)
                     {
-                        low_tmp = dfs_numbers[AdjacencyList[current_Vertex][i]];
+                        low_tmp = dfs_numbers[AdjacencyList[First_Vertex][i]];
                     }
                 }
 
             }
-            low_array[current_Vertex] = low_tmp;
-            if (low_array[current_Vertex] == dfs_numbers[current_Vertex] && parents_array[current_Vertex] != null)
+            low_array[First_Vertex] = low_tmp;
+            if (low_array[First_Vertex] == dfs_numbers[First_Vertex] && parents_array[First_Vertex] != null)
             {
 
-                Bridges.Add(new int[] { current_Vertex, (int)parents_array[current_Vertex] });
+                Bridges.Add(new int[] { First_Vertex, (int)parents_array[First_Vertex] });
             }
 
 
         }
         void Set_Spanning_Tree() //dfs spanning tree
         {
+            int first_vertex = 0;
+
             for (int i = 0; i < spanning_tree_2.Length; i++)
             {
                 spanning_tree_2[i] = new List<int>();
             }
-            DFS_Spanning_Tree_R(0);
+            while (isVisited() == false)
+            {
+                DFS_Spanning_Tree_R(first_vertex++);
+            }
             Clearing_Bool_Table();
+        }
+         bool isVisited()
+        {
+            bool visited_array = true;
+            for (int i = 0; i < visited.Length; i++)
+            {
+                if (visited[i] == false)
+                {
+                    visited_array = false;
+                }
+            }
+            return visited_array;
         }
         void Set_DFS_Array() //array for dfs numbers of vertices
         {
-            DFS_Array_R(0);
+            int first_vertex = 0;
+
+            while (isVisited() == false)
+            {
+                DFS_Array_R(first_vertex++);
+
+            }
             Clearing_Bool_Table();
         }
         void Set_Parents_Array() //array of parents for every vertex
@@ -128,38 +166,43 @@ namespace Project
         void DFS_Spanning_Tree_R(int First_Vertex) //altering array of lists building up DFS spanning tree, recursive version
         {
             //version where spanning tree doesnt have child-parent edges, only edges from parent to child
-            int current_Vertex = First_Vertex;
-            visited[current_Vertex] = true;
-
-
-            for (int i = 0; i < AdjacencyList[current_Vertex].Count; i++)
+            if (visited[First_Vertex] == true)
             {
-                if (visited[AdjacencyList[current_Vertex][i]] != true) //unvisited neighboor
-                {
-
-                    spanning_tree_2[current_Vertex].Add(AdjacencyList[current_Vertex][i]); //adding edge connecting parent and child
-                    DFS_Spanning_Tree_R(AdjacencyList[current_Vertex][i]);
-
-                }
+                return;
             }
+
+
+            visited[First_Vertex] = true;
+
+            List<int> vList = AdjacencyList[First_Vertex];
+            foreach (var n in vList)
+            {
+                if (!visited[n])
+                {
+                    spanning_tree_2[First_Vertex].Add(n);
+                    DFS_Spanning_Tree_R(n);
+                }
+
+            }
+           
         }
         void DFS_Array_R(int First_Vertex)//array for vertices dfs numbers
         {
-            int current_Vertex = First_Vertex;
-            visited[current_Vertex] = true;
-            dfs_numbers[current_Vertex] = iterator_one;
+            if (visited[First_Vertex] == true)
+            {
+                return;
+            }
+            visited[First_Vertex] = true;
+            dfs_numbers[First_Vertex] = iterator_one;
             iterator_one++;
 
-
-            for (int i = 0; i < AdjacencyList[current_Vertex].Count; i++)
+            List<int> vList = AdjacencyList[First_Vertex];
+            foreach (var n in vList)
             {
-                if (visited[AdjacencyList[current_Vertex][i]] != true) //unvisited neighbor
-                {
-
-                    DFS_Array_R(AdjacencyList[current_Vertex][i]);
-
-                }
+                if (!visited[n])
+                    DFS_Array_R(n);
             }
+            
         }
 
         int?[] DFS_Parents_Array() //array for vertices' parents
