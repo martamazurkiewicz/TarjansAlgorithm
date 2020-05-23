@@ -88,8 +88,9 @@ namespace Project
         //ToString shows bridges list
         public override string ToString()
         {
-
-            string retval = "Mosty:" + Environment.NewLine;
+            if (Bridges.Count == 0)
+                return "W podanym grafie nie ma mostów";
+            string retval = "Mosty między krawędziami: " + Environment.NewLine;
             foreach (var bridge in Bridges)
             {
                 retval += $"{bridge[0]+1},{bridge[1]+1}" + Environment.NewLine;
