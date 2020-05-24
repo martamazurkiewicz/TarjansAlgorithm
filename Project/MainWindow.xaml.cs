@@ -179,7 +179,7 @@ namespace Project
         private void DisplayErrorMessageBox(string message)
         {
             neighborsTextBoxes[Int32.Parse(message)].BorderBrush = new SolidColorBrush(Colors.Red);
-            MessageBox.Show($"Za duży number wierzchołka w {Int32.Parse(message) + 1} wierszu");
+            MessageBox.Show($"Za duży numer wierzchołka w {Int32.Parse(message) + 1} wierszu");
         }
     }
 }
